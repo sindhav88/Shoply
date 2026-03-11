@@ -107,6 +107,7 @@ exports.login = async (req, res) => {
       const token = jwt.sign({ userId: 'admin', role: DEFAULT_ADMIN_ROLE }, process.env.JWT_SECRET, { expiresIn: '1h' });
       console.log('Default admin login successful');
       return res.json({ 
+        userId: 'admin',
         token, 
         message: 'Admin login successful.',
         user: {
@@ -121,7 +122,7 @@ exports.login = async (req, res) => {
     // Generate JWT token for regular users
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     console.log('Login successful:', { userId: user._id, identifier });
-    res.json({ token, message: 'Login successful.' });
+    res.json({ userId: user._id, token, message: 'Login successful.' });
   } catch (err) {
     console.error('Login error:', err);
     res.status(500).json({ error: 'Login failed. Please try again later.' });
